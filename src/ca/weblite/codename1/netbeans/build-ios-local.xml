@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HelloWorldCN1" default="default" basedir="..">
+    <description>Builds, tests, and runs the project HelloWorldCN1.</description>
+    <import file="../build.xml"/>
+    
+    <target name="ios-local-init" depends="init">
+        <taskdef name="buildios" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.CodenameOneIOSBuildTask"/>
+        <taskdef name="setupxcode" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.SetupXcodeProject"/>
+        <taskdef name="openxcode" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.OpenXcodeProject"/>
+    </target>
+    
+    <target name="build-for-ios-locally" depends="ios-local-init">
+        <buildios codenameonesrc="${codename1.src.dir}" 
+                  xmlvmclasspath="${libs.cn1-ios-all.classpath}"
+        >
+         
+        </buildios>
+        <antcall target="open-xcode-project"/>
+    </target>
+    <target name="open-xcode-project" depends="ios-local-init">
+        <openxcode/>
+    </target>
+    
+    <target name="create-xcode-project" depends="ios-local-init">
+        <setupxcode codenameonesrc="${codename1.src.dir}" 
+                  xmlvmclasspath="${libs.cn1-ios-all.classpath}"
+        />
+        <antcall target="open-xcode-project"/>
+    </target>
+    <target name="clean-xcode-project" depends="ios-local-init">
+        <setupxcode codenameonesrc="${codename1.src.dir}" 
+                  xmlvmclasspath="${libs.cn1-ios-all.classpath}"
+                  clean="true"
+        />
+        <antcall target="open-xcode-project"/>
+    </target>
+    
+</project>
+
