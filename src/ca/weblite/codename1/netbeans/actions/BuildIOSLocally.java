@@ -63,7 +63,19 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
     public BuildIOSLocally(Lookup lookup) {
         super(Bundle.CTL_BuildIOSLocally());
         this.lkp = lookup;
-        result = this.lkp.lookupResult(Project.class);
+        Project p = lkp.lookup(Project.class);
+        super.setEnabled(false);
+        if ( p != null ){
+            FileObject projectDir = p.getProjectDirectory();
+            FileObject cn1PropertiesFile = projectDir.getFileObject("codenameone_settings.properties");
+            if ( cn1PropertiesFile != null ){
+                System.out.println("Setting enabled");
+                super.setEnabled(true);
+               
+            } 
+        }
+        Lookup.Template tpl = new Lookup.Template(Project.class);
+        result = this.lkp.lookup(tpl);
         result.addLookupListener(
                 WeakListeners.create(LookupListener.class, this, result)
         );
@@ -138,6 +150,7 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
 
     @Override
     public Action createContextAwareInstance(Lookup lkp) {
+        System.out.println("Creating context aware instance "+lkp);
         return new BuildIOSLocally(lkp);
     }
 
@@ -149,17 +162,20 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
 
     @Override
     public void resultChanged(LookupEvent le) {
+        System.out.println("Result was changed "+le);
         Collection<? extends Project> sel = result.allInstances();
+        System.out.println(sel);
         if ( sel.size() > 0 ){
             Project p = sel.toArray(new Project[0])[0];
             FileObject projectDir = p.getProjectDirectory();
             FileObject cn1PropertiesFile = projectDir.getFileObject("codenameone_settings.properties");
             if ( cn1PropertiesFile != null ){
+                System.out.println("Setting enabled");
                 super.setEnabled(true);
                 return;
             }
         }
-        
+        System.out.println("Setting disabled");
         super.setEnabled(false);
     }
 }
