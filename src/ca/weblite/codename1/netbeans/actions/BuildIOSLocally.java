@@ -74,7 +74,7 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
                
             } 
         }
-        Lookup.Template tpl = new Lookup.Template(Project.class);
+        Lookup.Template<Project> tpl = new Lookup.Template(Project.class);
         result = this.lkp.lookup(tpl);
         result.addLookupListener(
                 WeakListeners.create(LookupListener.class, this, result)
@@ -110,6 +110,8 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
 
                 File buildDir = new File(FileUtil.toFile(context.getProjectDirectory()), "build");
                 File iosDir = new File(buildDir, "ios");
+                
+                
                 if ( !iosDir.exists() ){
                     NotifyDescriptor nd = new NotifyDescriptor(
                             "No Xcode project has been created yet.  Do you want to create it now?", 
@@ -162,7 +164,7 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
 
     @Override
     public void resultChanged(LookupEvent le) {
-        System.out.println("Result was changed "+le);
+        
         Collection<? extends Project> sel = result.allInstances();
         System.out.println(sel);
         if ( sel.size() > 0 ){
@@ -170,12 +172,12 @@ public final class BuildIOSLocally extends AbstractAction implements ContextAwar
             FileObject projectDir = p.getProjectDirectory();
             FileObject cn1PropertiesFile = projectDir.getFileObject("codenameone_settings.properties");
             if ( cn1PropertiesFile != null ){
-                System.out.println("Setting enabled");
+                
                 super.setEnabled(true);
                 return;
             }
         }
-        System.out.println("Setting disabled");
+        
         super.setEnabled(false);
     }
 }
