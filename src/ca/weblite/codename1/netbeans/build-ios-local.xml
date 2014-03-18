@@ -4,6 +4,8 @@
     <import file="../build.xml"/>
     
     <target name="ios-local-init" depends="init">
+        <property name="codename1.src.dir" location="../CodenameOneSrc"/>
+        <property name="codename1.iosport.dir" location="../iOSPort"/>
         <taskdef name="buildios" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.CodenameOneIOSBuildTask"/>
         <taskdef name="setupxcode" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.SetupXcodeProject"/>
         <taskdef name="openxcode" classpath="${libs.cn1-ios-all.classpath}:${javac.classpath}" classname="ca.weblite.codename1.ios.OpenXcodeProject"/>
@@ -30,6 +32,7 @@
         <antcall target="open-xcode-project"/>
     </target>
     <target name="clean-xcode-project" depends="ios-local-init">
+        
         <setupxcode codenameonesrc="${codename1.src.dir}" 
                   iosport="${codename1.iosport.dir}"
                   xmlvmclasspath="${libs.cn1-ios-all.classpath}"
