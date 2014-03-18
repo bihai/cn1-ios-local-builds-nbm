@@ -11,6 +11,7 @@
     
     <target name="build-for-ios-locally" depends="ios-local-init">
         <buildios codenameonesrc="${codename1.src.dir}" 
+                  iosport="${codename1.iosport.dir}"
                   xmlvmclasspath="${libs.cn1-ios-all.classpath}"
         >
          
@@ -23,12 +24,14 @@
     
     <target name="create-xcode-project" depends="ios-local-init">
         <setupxcode codenameonesrc="${codename1.src.dir}" 
+                    iosport="${codename1.iosport.dir}"
                   xmlvmclasspath="${libs.cn1-ios-all.classpath}"
         />
         <antcall target="open-xcode-project"/>
     </target>
     <target name="clean-xcode-project" depends="ios-local-init">
         <setupxcode codenameonesrc="${codename1.src.dir}" 
+                  iosport="${codename1.iosport.dir}"
                   xmlvmclasspath="${libs.cn1-ios-all.classpath}"
                   clean="true"
         />

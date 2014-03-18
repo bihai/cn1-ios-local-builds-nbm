@@ -26,7 +26,7 @@ import org.openide.util.MutexException;
  * @author shannah
  */
 public class Installer {
-    public static final int version = 3;
+    public static final int version = 4;
     public static final String VERSION_KEY = "cn1-ios-local.version";
     public static final String PROPERTIES_PATH = "nbproject/project.properties";
     private final Project project;
